@@ -1,7 +1,29 @@
-version: '2.0'
+version: '2.7'
 services:
-  webhawk:
+  apache:
     build: .
-    command: python -m uvicorn api:app --reload --host 0.0.0.0 --port 8000
+    container_name: apache
+    hostname: apache
     ports:
-      - "8000:8000"
+      - "80:80"
+  
+  server:
+    container_name: server
+    hostname: server
+    ports:
+      - "81:80"
+    build: 
+      context: .
+      dockerfile: simpleC2/Dockerfile.server
+
+  bot_a:
+    container_name: bot_a
+    hostname: bot_a
+    ports:
+      - "9991:9991"
+    build: 
+      context: .
+      dockerfile: simpleC2/Dockerfile.bot
+    
+
+    

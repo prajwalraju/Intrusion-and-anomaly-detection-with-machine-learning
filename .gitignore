@@ -6,3 +6,4 @@ SAMPLE_DATA/labeled-encoded-data-samples/
 
 SCANS/*
 !SCANS/.keep
+BotNet/*

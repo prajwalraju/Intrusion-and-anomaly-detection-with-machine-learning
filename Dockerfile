@@ -1,14 +1,31 @@
-FROM python:3.8
+FROM ubuntu 
 
-RUN pip3.8 install configparser
-RUN pip3.8 install requests
-RUN pip3.8 install pydantic
-RUN pip3.8 install argparse
-RUN pip3.8 install sklearn
-RUN pip3.8 install uvicorn
-RUN pip3.8 install fastapi
-RUN pip3.8 install numpy
+### install all required packages
+RUN apt-get update
+RUN apt-get install python3 python3-pip -y
+RUN apt-get install apache2 wget unzip vim cron -y
+RUN apt clean 
 
-RUN mkdir /webhawk
-COPY . /webhawk
-WORKDIR /webhawk
+### anomaly detection repo
+WORKDIR /root
+RUN wget https://github.com/prajwalraju/Intrusion-and-anomaly-detection-with-machine-learning/archive/refs/heads/master.zip 
+RUN unzip master.zip
+
+WORKDIR /root/Intrusion-and-anomaly-detection-with-machine-learning-master
+RUN pip install -r requirements.txt
+RUN cp settings_template.conf settings.conf
+
+# copy detection files
+RUN touch log_position.txt
+COPY ./continuousLogDetection.py .
+COPY ./predict.py .
+COPY ./MODELS/attack_classifier_dt_1687847175.pkl /root/Intrusion-and-anomaly-detection-with-machine-learning-master/MODELS/attack_classifier_dt_1687847175.pkl
+
+# # copy cron
+# COPY ./cronjob /etc/cron.d/cronjob
+# RUN chmod 0644 /etc/cron.d/cronjob
+# RUN crontab /etc/cron.d/cronjob
+# RUN cron -f &
+
+EXPOSE 80
+CMD ["apache2ctl", "-D", "FOREGROUND"]
