@@ -1,0 +1,9 @@
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Jul 08 01:39:56.891759 2023] [mpm_event:notice] [pid 14:tid 139809478428544] AH00489: Apache/2.4.52 (Ubuntu) configured -- resuming normal operations
+[Sat Jul 08 01:39:56.892731 2023] [core:notice] [pid 14:tid 139809478428544] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.5. Set the 'ServerName' directive globally to suppress this message
+[Sat Jul 08 01:42:50.554648 2023] [mpm_event:notice] [pid 15:tid 140709133862784] AH00489: Apache/2.4.52 (Ubuntu) configured -- resuming normal operations
+[Sat Jul 08 01:42:50.555763 2023] [core:notice] [pid 15:tid 140709133862784] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.5. Set the 'ServerName' directive globally to suppress this message
+[Sat Jul 08 01:55:06.340433 2023] [mpm_event:notice] [pid 22:tid 140350174279552] AH00489: Apache/2.4.52 (Ubuntu) configured -- resuming normal operations
+[Sat Jul 08 01:55:06.342892 2023] [core:notice] [pid 22:tid 140350174279552] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'

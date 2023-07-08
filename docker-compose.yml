@@ -6,24 +6,55 @@ services:
     hostname: apache
     ports:
       - "80:80"
+    volumes:
+      - ./application:/var/log/apache2
+    networks:
+      - mynetwork
   
   server:
     container_name: server
     hostname: server
+    expose:
+      - 5000
     ports:
-      - "81:80"
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - CONTAINTER_INFO=[{"host":"bot_a","port":5001},{"host":"bot_b","port":5002}]
     build: 
       context: .
       dockerfile: simpleC2/Dockerfile.server
+    networks:
+      - mynetwork
 
   bot_a:
-    container_name: bot_a
     hostname: bot_a
+    expose:
+      - 5001
     ports:
-      - "9991:9991"
+      - "5001:5001"
+    environment:
+      - PORT=5001
     build: 
       context: .
       dockerfile: simpleC2/Dockerfile.bot
-    
+    networks:
+      - mynetwork
 
+  bot_b:
+    hostname: bot_b
+    expose:
+      - 5002
+    ports:
+      - "5002:5002"
+    environment:
+      - PORT=5002
+    build: 
+      context: .
+      dockerfile: simpleC2/Dockerfile.bot
+    networks:
+      - mynetwork
     
+networks:
+  mynetwork:
+    driver: bridge

@@ -1,27 +1,31 @@
-import socket
+import logging
+import os
+from flask import Flask, request
+import json
+import requests as req
 
-def send_command(command, host, port):
-    try:
+app = Flask(__name__)
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+
+@app.route('/runCommand')
+def server_api():
+    command = request.args.get('command')
+    containerInfoString = os.environ.get('CONTAINTER_INFO')
+    print(containerInfoString)
+    containerInfo = json.loads(containerInfoString)
+    responseList = []
+    for i in range(len(containerInfo)):
+        url = f"http://{containerInfo[i]['host']}:{containerInfo[i]['port']}/run?command={command}"
+        app.logger.info(f"url being hit {url}")
+        response = req.request("GET", url, headers={}, data={})
         
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((host, port))
-        client_socket.send(command.encode())
-        output = client_socket.recv(1024).decode()
-        print(output)
-        client_socket.close()
-    except Exception as e:
-        print(str(e))
+        app.logger.info(f"for container {i} response is {response.text}")
+        responseList.append(response.text)
+    return responseList
 
-# Example usage
-# send_command('ls', '127.0.0.1', 9991)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=os.environ.get('PORT'))
 
-bots = [
-    {'host': '127.0.0.1', 'port': 9991},
-    {'host': '127.0.0.1', 'port': 9992}
-]
 
-command = 'ls -all'
-for bot in bots:
-    host = bot['host']
-    port = bot['port']
-    send_command(command, host, port)
+# requests.request("GET", "bot_a:5001/run?command=ls", headers={}, data={})

@@ -22,10 +22,10 @@ COPY ./predict.py .
 COPY ./MODELS/attack_classifier_dt_1687847175.pkl /root/Intrusion-and-anomaly-detection-with-machine-learning-master/MODELS/attack_classifier_dt_1687847175.pkl
 
 # # copy cron
-# COPY ./cronjob /etc/cron.d/cronjob
-# RUN chmod 0644 /etc/cron.d/cronjob
-# RUN crontab /etc/cron.d/cronjob
-# RUN cron -f &
+COPY ./cronjob /etc/cron.d/cronjob
+COPY continuousLogDetectionContainerSetup.sh continuousLogDetectionContainerSetup.sh
+RUN chmod 0644 /etc/cron.d/cronjob
+RUN crontab /etc/cron.d/cronjob
 
 EXPOSE 80
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+CMD ["bash", "continuousLogDetectionContainerSetup.sh"]

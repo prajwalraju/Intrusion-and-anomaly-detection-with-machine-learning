@@ -1,9 +1,7 @@
-FROM ubuntu
+FROM python:3.9
 
-WORKDIR /root
-RUN apt-get update
-RUN apt-get install python3 python3-pip -y
-COPY ./simpleC2/bot.py bot.py
+WORKDIR /app
+COPY ./simpleC2/bot.py /app
+RUN pip install flask
 
-EXPOSE 9991
-CMD ["python3","bot.py"]
+CMD ["python", "bot.py"]
